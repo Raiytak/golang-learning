@@ -1,1 +1,2 @@
 GET http://localhost:8080/events
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3N0QGdtYWlsLmNvbSIsImV4cCI6MTczMjg0NDk0MywidXNlcklkIjoyfQ.IUN6k3_fjoJdhFxoE7wo_1_YLkifMTjGKn70ei_jv2E

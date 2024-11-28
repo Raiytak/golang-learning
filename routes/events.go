@@ -62,6 +62,18 @@ func updateEvent(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse the data sent"})
 		return
 	}
+
+	event, err := models.GetEventByID(eventId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event"})
+	}
+	userId := context.GetInt64("userId")
+	expectedUserId := event.UserID
+	if userId != expectedUserId {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Only event creator can modify the event"})
+		return
+	}
+
 	updated_event.ID = eventId
 	err = updated_event.Update()
 	if err != nil {
@@ -81,6 +93,14 @@ func deleteEvent(context *gin.Context) {
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event"})
 	}
+
+	userId := context.GetInt64("userId")
+	expectedUserId := event.UserID
+	if userId != expectedUserId {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Only event creator can modify the event"})
+		return
+	}
+
 	err = event.Delete()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not delete event"})
